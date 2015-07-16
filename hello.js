@@ -14,7 +14,7 @@ function renderPlayer() {
 }
 
 
-var Movement = function (end = 2000) {
+var Movement = function (end) {
 	this.end = end;
 	this.starttime = Date.now();
 
@@ -51,7 +51,7 @@ function setPlayerTarget(x, y) {
 	player.startx = p.x; player.starty = p.y;
 	player.targetx = x;
 	player.targety = y;
-	player.movement = new Movement();
+	player.movement = new Movement(2000);
 }
 
 function getPlayerPos() {
