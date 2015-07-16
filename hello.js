@@ -1,64 +1,73 @@
-var canvas = document.createElement("canvas");
+var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 512;
-canvas.height = 512;
-canvas.style = "position: absolute; left:50%; margin-left:-256px; margin-top:20px"
-document.body.appendChild(canvas);
 
-var fillBg = function() {
-	ctx.fillStyle = "#000000";
-	ctx.fillRect(0,0,512,512);
-}	
+
+function fillBoard() {
+	ctx.fillStyle="#000000";
+	ctx.fillRect(0,0,canvas.width, canvas.height);
+}
+
+function renderPlayer() {
+	ctx.fillStyle="#FF0000";
+	var playerpos = getPlayerPos();
+	ctx.fillRect(playerpos.x-5, playerpos.y-5, 10, 10);
+}
+
+
+var Movement = function (end = 2000) {
+	this.end = end;
+	this.starttime = Date.now();
+
+	this.isDone = function () {
+		return Date.now() >= this.starttime + this.end;
+	}
+
+	this.getPos = function () {
+		var delta = Date.now() - this.starttime;
+		if (this.end < delta) {
+			return this.end;
+		} else {
+			return delta * delta / this.end;
+		}
+	}
+}
 
 var player = {
-	x: 256, y: 256,
-	size: 10,
-	color: "#FF0000",
+	startx:10, starty:10,
+	targetx:10, targety:10,
 	
-	speed: 256,
-	
-	render: function () {
-		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x-this.size/2, this.y-this.size/2, this.size, this.size);
+	movement: new Movement(0)
+}
+
+
+canvas.addEventListener('click',
+			function(e) {
+				setPlayerTarget(e.clientX - canvas.offsetLeft,
+								e.clientY - canvas.offsetTop);
+			});
+
+function setPlayerTarget(x, y) {
+	var p = getPlayerPos();
+	player.startx = p.x; player.starty = p.y;
+	player.targetx = x;
+	player.targety = y;
+	player.movement = new Movement();
+}
+
+function getPlayerPos() {
+	if (player.movement.isDone()) {
+		return {x:player.targetx, y:player.targety};
+	} else {
+		var at = player.movement.getPos() / player.movement.end;
+		return {x:player.startx + (player.targetx - player.startx)*at,
+				y:player.starty + (player.targety - player.starty)*at};
 	}
 }
 
-var keysDown = {}
 
-addEventListener("keydown", function(e) {keysDown[e.keyCode]=true; })
-addEventListener("keyup",   function(e) {delete keysDown[e.keyCode];})
-
-function update(delta) {
-	
-	if (87 in keysDown) {
-		player.y-=delta*player.speed/1000;
-	}
-	
-	if (83 in keysDown) {
-		player.y+=delta*player.speed/1000;
-	}
-	
-	if (65 in keysDown) {
-		player.x-=delta*player.speed/1000;
-	}
-	
-	if (68 in keysDown) {
-		player.x+=delta*player.speed/1000;
-	}
-}
-
-var then = Date.now();
-
-var main = function () {
-	var now = Date.now();
-	var delta = now - then;
-	
-	update(delta);
-
-	fillBg();
-	player.render();
-
-	then = now;
+function main() {
+	fillBoard();
+	renderPlayer();
 	window.requestAnimationFrame(main);
 }
 
