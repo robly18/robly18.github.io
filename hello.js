@@ -156,17 +156,40 @@ var spd = 0.4;
 
 var mspf = 1000/60;
 
-addPlatform('down', 0, 5500, 10000, true);
-addPlatform('up', 512, 6000, 9500, true);
+var p = function (dir, y, start, end, kill) { //times in s
+	addPlatform(dir, y, 1000*start, 1000*(end-start), kill);
+}
+var d = 'down', u = 'up';
 
-addPlatform('down', 100, 5500, 1200);
-addPlatform('up', 400, 6600, 2200);
-addPlatform('down', 200, 8000, 1200);
-addPlatform('up', 300, 9000, 2200);
-addPlatform('down', 150, 11000, 1000);
-addPlatform('up', 300, 11700, 2000);
-addPlatform('down', 100, 13400, 1000);
-addPlatform('up', 400, 14500, 1700);
+p(d, 0, 5.5, 30, true);
+p(u, 512, 6, 30, true);
+p(d, 20, 16, 27, true);
+p(u, 512-20, 16, 27, true);
+
+p(d, 100, 5.5, 6.7);
+p(u, 400, 6.6, 8.2);
+p(d, 200, 8, 9.2);
+p(u, 300, 9, 11);
+p(d, 150, 10.5, 12);
+p(u, 300, 11.7, 13.5);
+p(d, 100, 13.4, 14.4);
+p(u, 400, 14.5, 16);
+p(d, 200, 15.8, 17.25);
+p(u, 450, 17.3, 18.9);
+p(d, 250, 18.8, 19.6);
+p(d, 150, 19.7, 21.3);
+p(u, 200, 21.1, 22.3);
+p(d, 100, 22.2, 24.4);
+p(u, 300, 24.4, 25.1);
+p(u, 400, 25.1, 26);
+p(u, 450, 26.1, 27);
+p(d, 100, 27.1, 27.6);
+p(u, 450, 27.6, 28.3);
+p(d, 200, 28.2, 28.9);
+p(u, 400, 28.9, 29.5);
+
+
+var gstartt = 0;
 
 function main () {
 	var newt = Date.now();
@@ -189,7 +212,7 @@ function main () {
 function reset() {
 	
 	prevt = Date.now();
-	startt = Date.now();
+	startt = Date.now() - (gstartt * 1000);
 	atPlatform = 0;
 	
 	level.sort(function(a,b){return a.start-b.start});
@@ -198,7 +221,7 @@ function reset() {
 	
 	player.dir = 1; player.y = canvas.height - player.h;
 	
-	bgmusic.currentTime = 0;
+	bgmusic.currentTime = gstartt;
 	
 	main();
 }
