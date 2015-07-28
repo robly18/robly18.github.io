@@ -216,6 +216,7 @@ function ready() {
 	canvas.onclick = function () {
 		reset();
 		this.onclick = null;
+		bgmusic.play();
 	}
 }
 
