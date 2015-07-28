@@ -207,4 +207,16 @@ function reset() {
 
 var bgmusic = document.getElementById("bgmusic");
 
-bgmusic.addEventListener('canplay', reset);
+bgmusic.addEventListener('canplay', ready);
+
+function ready() {
+	ctx.fillStyle = 'black';
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	
+	canvas.onclick = function () {
+		reset();
+		this.onclick = null;
+	}
+}
+
+
