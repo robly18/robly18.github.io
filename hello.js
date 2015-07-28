@@ -207,11 +207,16 @@ var bgmusic = document.getElementById("bgmusic");
 
 bgmusic.addEventListener('canplay', ready);
 
-function ready() {
+function ready(e) {
+	e.target.removeEventListener(e.type, arguments.callee);
+	
+	
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	
+	console.log("Called ready!");
 	canvas.onclick = function () {
+		console.log("Canvas.Onclick1");
 		reset();
 		this.onclick = null;
 		bgmusic.play();
