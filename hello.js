@@ -213,10 +213,10 @@ function ready() {
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	
+	document.addEventListener('touchstart', function(e) {bgmusic.play(); e.target.removeEventListener(e.type, arguments.callee);});
 	canvas.onclick = function () {
 		reset();
 		this.onclick = null;
-		bgmusic.play();
 	}
 }
 
