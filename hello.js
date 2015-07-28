@@ -205,6 +205,6 @@ function reset() {
 	main();
 }
 
-var bgmusic = new Audio("remem8er.mp3");
+var bgmusic = document.getElementById("bgmusic");
 
 bgmusic.addEventListener('canplay', reset);
