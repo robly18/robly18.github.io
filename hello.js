@@ -1,8 +1,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var bgcol = "#070711";
-var platformcol = "#222277";
+var bgcol = "#020208";
+var platformcol = "#4242DD";
 var spikecol = "#AAAADD";
 
 function Img (filename) {
