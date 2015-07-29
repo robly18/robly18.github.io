@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var bgcol = "#020208";
+var bgcol = "#0A0A1A";
 var platformcol = "#4242DD";
 var spikecol = "#AAAADD";
 
@@ -289,7 +289,7 @@ function ready(e) {
 	e.target.removeEventListener(e.type, arguments.callee);
 	
 	
-	ctx.fillStyle = 'black';
+	ctx.fillStyle = '#070711';
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	
 	console.log("Called ready!");
